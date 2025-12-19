@@ -18,7 +18,7 @@ MediParse is an automated system designed to extract prescription and patient de
 
 ### Technical Architecture
 
-<img width="70%" src="images/mediparse_diagramsvg" alt="MediParse Processing Pipeline">
+<img width="70%" src="images/mediparse_diagram.svg" alt="MediParse Processing Pipeline">
 
 
 #### Processing Pipeline
