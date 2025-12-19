@@ -1,5 +1,5 @@
 import re
-from parser_generic import MedicalDocParser
+from .parser_generic import MedicalDocParser
 
 class ParserPatientDetails(MedicalDocParser):
     def __init__(self, text):
@@ -9,14 +9,14 @@ class ParserPatientDetails(MedicalDocParser):
     def parse(self):
         return {
             'patient_name': self.get_patient_name(),
-            'patient_phone_number': self.get_patient_phone_number(),
+            'phone_number': self.get_patient_phone_number(),
             'hepatitis_b_vaccination': self.get_hepatitis_b_vaccination(),
             'medical_problems': self.get_medical_problems(),
         }
 
 
     def get_patient_name(self):
-        pattern = 'Patient Information(.*?)\(\d{3}\)'
+        pattern = r'Patient Information(.*?)\(\d{3}\)'
         matches = re.findall(pattern, self.text, flags=re.DOTALL)
         name = ''
 
@@ -26,15 +26,15 @@ class ParserPatientDetails(MedicalDocParser):
 
 
     def get_patient_phone_number(self):
-        pattern = 'Patient Information(.*?)(\(\d{3}\) \d{3}-\d{4})'
+        pattern = r'Patient Information(.*?)(\(\d{3}\) \d{3}-\d{4})'
         matches = re.findall(pattern, self.text, flags=re.DOTALL)
 
         if matches:
             return matches[0][-1]
 
     def remove_noise_from_name(self, name):
-        name = name.replace('Birth Date]', '').strip()
-        date_pattern = '((Jan|Feb|March|April|May|June|July|Aug|Sep|Oct|Nov|Dec)[\d]+)'
+        name = name.replace('Birth Date', '').strip()
+        date_pattern = r'((Jan|Feb|March|April|May|June|July|Aug|Sep|Oct|Nov|Dec)[ \d]+)'
         date_matches = re.findall(date_pattern, name)
 
         if date_matches:
@@ -44,7 +44,7 @@ class ParserPatientDetails(MedicalDocParser):
 
 
     def get_hepatitis_b_vaccination(self):
-        pattern = 'Have you had the Hepatitis B vaccination\?.*(Yes|No)'
+        pattern = r'Have you had the Hepatitis B vaccination\?.*(Yes|No)'
         matches = re.findall(pattern, self.text, flags=re.DOTALL)
 
         if matches:

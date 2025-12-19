@@ -5,3 +5,6 @@ venv/
 .python-version
 
 backend/uploads/*
+
+.pytest_cache/
+__pycache__/
