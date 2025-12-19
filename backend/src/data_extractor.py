@@ -1,8 +1,8 @@
 from pdf2image import convert_from_path
 import pytesseract
-import util
-from parser_patient_details import ParserPatientDetails
-from parser_prescription import ParserPrescription
+from . import util
+from .parser_patient_details import ParserPatientDetails
+from .parser_prescription import ParserPrescription
 
 def extract_data(file_format, file_path):
     # Extracting text from pdf file

@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Form, UploadFile, File
 import uvicorn
-from data_extractor import extract_data
+from .data_extractor import extract_data
 import uuid
 import os
+from pathlib import Path
 
 app = FastAPI()
 
@@ -18,12 +19,15 @@ def extract_from_document(
 
     contents = file.file.read()
     print(f"Received file of size: {len(contents)} bytes")
-    file_path = "../uploads/" + str(uuid.uuid4()) + ".pdf"
+
+    uploads_dir = Path(__file__).parent.parent / "uploads"
+    uploads_dir.mkdir(exist_ok=True)
+
+    file_path = uploads_dir / f"{uuid.uuid4()}.pdf"
     print(f"Saving uploaded file to: {file_path}")
 
     with open(file_path, "wb") as f:
         f.write(contents)
-    # pass
 
     try:
         data =  extract_data(file_format, file_path)
